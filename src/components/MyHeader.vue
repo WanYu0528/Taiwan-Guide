@@ -2,12 +2,12 @@
 div(class="relative z-10 flex justify-between items-center after:absolute after:-top-6 after:-inset-x-6 after:-bottom-16 after:-z-10")
   router-link(to="/" class="block w-[150px] h-[70px] bg-[url('@/assets/images/logo.png')] bg-no-repeat bg-center bg-contain")
   button(class="text-3xl rounded-lg")
-    i(class="icofont-rounded-left text-main bg-slate-100 rounded" @click="setSideMenuClose")
+    i(class="icofont-rounded-left text-main bg-slate-100 rounded hidden pad:block" @click="setSideMenuClose")
 div(
   class="relative mt-6 z-10 cursor-pointer flex justify-center items-center my-4 py-2 px-3 bg-zinc-50 border border-zinc-300 rounded-lg"
   @click="openCity = !openCity")
   //- 等API
-  span(class="w-full text-xl leading-5 text-gray-900") {{ cityLib[city].name }}｜景點｜精準搜尋
+  span(class="w-full text-xl leading-5 text-gray-900") {{ cityName(city) }}
   button(class="text-2xl text-main bg-transparent transition duration-500 origin-center"
   :class="!openCity ? 'rotate-180' : 'rotate-0'")
     i(class="icofont-circled-up")
@@ -30,29 +30,42 @@ div(class="absolute inset-x-6 justify-start py-1 px-2 bg-gray-100 z-10 transitio
       v-for="item in areaName" :key="item"
       class="block my-[0.2rem] mx-[0.5rem] py-1 px-5 border border-main rounded hover:bg-main hover:text-gray-100 cursor-pointer"
       :class="city === item ? 'bg-main text-gray-100' : ''"
-      @click="setCity(item)") {{ cityLib[item].name }}
+      @click="setCity(item)") {{ cityName(item) }}
 div(class="my-4 px-3 py-2 bg-zinc-50 border border-zinc-300 rounded-lg flex justify-between")
   input(
+    v-model="keyword"
     type="text"
     class="w-full text-lg text-gray-900 bg-transparent"
     placeholder="Search"
   )
   button(class="text-2xl text-main")
     i(class="icofont-search-1")
-button(class="px-3 py-2 rounded-lg bg-main w-full ")
+button(class="px-3 py-2 rounded-lg bg-main w-full" @click="onSearch")
   i(class="icofont-search-1 text-gray-100 mr-2 text-lg")
   span(class="text-lg text-gray-100 bg-transparent") 開始搜尋
 </template>
 <script setup>
 import { ref, watch } from "vue";
-import { regionLib, cityLib, themeLib, modeLib } from "../lib.js";
+import { regionLib, cityLib } from "../lib.js";
+import tourism from "@/api/tourism";
+
 const emit = defineEmits(["setSideMenuClose", "setCity"]);
 defineProps(["city"]);
 const setSideMenuClose = () => emit("setSideMenuClose");
+// 選擇的城市
 const city = ref("Taiwan");
 const setCity = (item) => {
   city.value = item;
   emit("setCity", item);
+};
+const cityScenicSpot = ref({});
+const keyword = ref("");
+const onSearch = async () => {
+  let res = {};
+  if (city.value === "Taiwan") res = await tourism.ScenicSpot.gatAllCityScenicSpot();
+  else res = await tourism.ScenicSpot.gatCityScenicSpot(city.value, keyword.value);
+  cityScenicSpot.value = res.data;
+  console.log(cityScenicSpot);
 };
 // 展開搜尋下拉選單
 const openCity = ref(false);
