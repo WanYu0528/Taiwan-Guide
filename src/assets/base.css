@@ -35,7 +35,26 @@
 
   --section-gap: 160px;
 }
+/*客製化卷軸*/
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-corner {
+  display: none;
+}
 
+::-webkit-scrollbar-thumb {
+  border-radius: 4.5px;
+  border: 0;
+  background: #9ca3af;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
 /* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
