@@ -74,18 +74,14 @@ const cityScenicSpot = ref({});
 const keyword = ref("");
 const router = useRouter();
 const onSearch = async () => {
-  let res = {};
-  if (searchMode.value === "ScenicSpot") {
-    if (city.value === "Taiwan") res = await tourism.ScenicSpot.gatAllCityScenicSpot();
-    else res = await tourism.ScenicSpot.gatCityScenicSpot(city.value, keyword.value);
-    cityScenicSpot.value = res.data;
-    console.log(cityScenicSpot);
-    router.replace({
-      name: "Search",
-      params: { mode: searchMode.value, city: city.value, keyword: keyword.value },
-    });
-    setSideMenuClose();
-  }
+  let res = await tourism.ScenicSpot.gatCityTravelInfo(searchMode.value, city.value, keyword.value);
+  cityScenicSpot.value = res.data;
+  console.log(cityScenicSpot);
+  router.replace({
+    name: "Search",
+    params: { mode: searchMode.value, city: city.value, keyword: keyword.value },
+  });
+  setSideMenuClose();
 };
 // 展開搜尋下拉選單
 const openCity = ref(false);
