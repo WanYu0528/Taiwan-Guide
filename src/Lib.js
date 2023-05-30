@@ -44,10 +44,10 @@ const themeLib = [
 ];
 // 模式列表
 const modeLib = {
-  ScenicSpot: { title: "景點", color: "#3fb195" },
-  Restaurant: { title: "餐飲", color: "#ff9999" },
-  Hotel: { title: "旅宿", color: "#a79bfd" },
-  Activity: { title: "活動", color: "#feb155" },
+  ScenicSpot: { title: "景點", color: "#3fb195", type: "ScenicSpot" },
+  Restaurant: { title: "餐飲", color: "#ff9999", type: "Restaurant" },
+  Hotel: { title: "旅宿", color: "#a79bfd", type: "Hotel" },
+  Activity: { title: "活動", color: "#feb155", type: "Activity" },
 };
 // 隨機標語列表
 const sloganLib = [
