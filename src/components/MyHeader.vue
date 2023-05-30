@@ -22,7 +22,7 @@ div(class="absolute inset-x-6 justify-start py-1 px-2 bg-gray-100 z-10 transitio
     button(
       v-for="region in regionLib" :key="region"
       @click="selectArea = region.region"
-      class="my-2"
+      class="my-2 hover:text-main"
       :class="selectArea === region.region ? 'border-b-2 border-main': ''"
       ) {{ region.name }}
   div(class="w-full flex flex-wrap")
@@ -57,15 +57,15 @@ import { ref, watch, computed } from "vue";
 import { regionLib, cityLib, modeLib } from "../Lib.js";
 import tourism from "@/api/tourism";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-const emit = defineEmits(["setSideMenuClose", "setCity"]);
-defineProps(["city"]);
+const store = useStore();
+const emit = defineEmits(["setSideMenuClose"]);
 const setSideMenuClose = () => emit("setSideMenuClose");
 // 選擇的城市
 const city = ref("Taiwan");
 const setCity = (item) => {
   city.value = item;
-  emit("setCity", item);
 };
 // 選擇類型
 const searchMode = ref("ScenicSpot");
@@ -74,14 +74,21 @@ const cityScenicSpot = ref({});
 const keyword = ref("");
 const router = useRouter();
 const onSearch = async () => {
-  let res = await tourism.ScenicSpot.gatCityTravelInfo(searchMode.value, city.value, keyword.value);
-  cityScenicSpot.value = res.data;
-  console.log(cityScenicSpot);
-  router.replace({
-    name: "Search",
-    params: { mode: searchMode.value, city: city.value, keyword: keyword.value },
-  });
-  setSideMenuClose();
+  try {
+    let res = await tourism.ScenicSpot.gatCityTravelInfo(searchMode.value, city.value, keyword.value);
+    cityScenicSpot.value = res.data;
+    store.commit("searchData/getChosenMode", searchMode.value);
+    store.commit("searchData/getChosenCity", city.value);
+    store.commit("searchData/getChosenKeyword", keyword.value);
+    router.replace({
+      name: "Search",
+      params: { mode: searchMode.value, city: city.value, keyword: keyword.value },
+    });
+    setSideMenuClose();
+  }
+  catch (error) {
+    console.log(error);
+  }
 };
 // 展開搜尋下拉選單
 const openCity = ref(false);

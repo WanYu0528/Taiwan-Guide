@@ -22,8 +22,9 @@ const ScenicSpot = {
         if (mode === "Activity") filter = `contains(${mode}Name,'${keyword}') or contains(Class1,'${keyword}') or contains(Class2,'${keyword}')`;
         if (mode === "ScenicSpot") filter = `contains(${mode}Name,'${keyword}') or contains(Class1,'${keyword}') or contains(Class2,'${keyword}') or contains(Class3,'${keyword}')`;
       });
+      return instance.get(`${url}&$filter=${filter}`);
     }
-    return instance.get(`${url}&$filter=(${filter})`);
+    return instance.get(`${url}`);
   }
 };
 
