@@ -13,7 +13,10 @@ div(class="p-8 w-full")
       v-for="(item, idx) in ranCity" :key="item[0]"
       :to="`/ScenicSpot/${item[0]}/`"
     )
-      div(class="w-full h-full transition transform duration-500 rounded-lg hover:scale-125")
+      div(
+        @click="onSearch(item[0])"
+        class="w-full h-full transition transform duration-500 rounded-lg hover:scale-125"
+        )
         img(
           class="w-full h-full object-center object-cover"
           style=":nth-child(3n+1):"
@@ -27,8 +30,14 @@ div(class="p-8 w-full")
 // import { ref } from "vue";
 import { sloganLib, cityLib } from "../Lib.js";
 import getRandomCount from "@/utils/getRandomCount.js";
+import { useStore } from "vuex";
+
+const store = useStore();
 const ranSlogan = getRandomCount(sloganLib, 1);
 const ranCity = getRandomCount(Object.entries(cityLib), 7);
+const onSearch = (city) => {
+  store.commit("searchData/getChosenCity", city); 
+};
 </script>
 <style>
 .custom-class:nth-child(3n+1) {
