@@ -6,7 +6,6 @@ div(class="relative z-10 flex justify-between items-center after:absolute after:
 div(
   class="relative mt-6 z-10 cursor-pointer flex justify-center items-center my-4 py-2 px-3 bg-zinc-50 border border-zinc-300 rounded-lg"
   @click="openCity = !openCity")
-  //- 等API
   span(class="w-full text-xl leading-5 text-gray-900") {{ cityName(city) }} | {{ modeName }}
   button(class="text-2xl text-main bg-transparent transition duration-500 origin-center"
   :class="!openCity ? 'rotate-180' : 'rotate-0'")
