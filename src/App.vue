@@ -12,6 +12,7 @@ div(class="w-full max-w-[min(1440px,100vw)] h-full flex items-start m-auto box-b
       RouterLink(to="/" class="block w-[100px] h-[70px] bg-[url('@/assets/images/logo.png')] bg-no-repeat bg-center bg-contain")
       div
     RouterView(
+      @setMode="setMode"
       :city="city"
       :mode="mode"
       :keyword="keyword"
@@ -40,7 +41,7 @@ const keyword = computed(() => {
 });
 // 控制側邊導覽列顯示狀態
 const isSideMenuShow = ref(false);
-
+const setMode = (m) => (mode.value = m);
 </script>
 
 
