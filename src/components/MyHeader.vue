@@ -41,7 +41,7 @@ div(class="my-4 px-3 py-2 bg-zinc-50 border border-zinc-300 rounded-lg flex just
   input(
     v-model="keyword"
     type="text"
-    class="w-full text-lg text-gray-900 bg-transparent"
+    class="w-full text-lg text-gray-900 bg-transparent outline-none"
     placeholder="Search"
     @keypress.enter="onSearch"
   )
