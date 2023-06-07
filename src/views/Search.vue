@@ -3,7 +3,7 @@ div(class="p-8")
   div(class="relative w-full h-[min(300px,40vw)] bg-white rounded-2xl shadow-xl")
     img(
       class="h-full w-full object-left object-cover rounded-2xl"
-      src="../assets/images/banner_ScenicSpot.png"
+      :src="`/public/images/banner_${parm.mode}.png`"
       alt="Taiwan-Guide"
       title="Taiwan-Guide"
     )
@@ -14,7 +14,7 @@ div(class="p-8")
       :to="`/D/${item[parm.mode + 'ID']}/`"
       class="flex flex-col w-[32%] pad:w-[47%] mobile:w-full rounded-lg overflow-hidden items-stretch mx-1 mb-4 bg-white transition hover:shadow-lg duration-500"
     )
-      div(class="w-full h-[250px] bg-[url('../assets/images/logo.png')] bg-no-repeat bg-center bg-contain")
+      div(class="w-full h-[250px] bg-[url('./images/logo.png')] bg-no-repeat bg-center bg-contain")
         img(
           class="w-full h-full object-center object-cover transition transform duration-500 hover:scale-125"
           :src="item.Picture.PictureUrl1"

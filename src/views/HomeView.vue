@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="p-8 w-full")
-  div(class="relative w-full min-h-[300px] bg-[url('@/assets/images/banner_Home.png')] bg-no-repeat bg-right-bottom bg-contain bg-white rounded-2xl shadow-lg")
+  div(class="relative w-full min-h-[300px] bg-[url('./images/banner_Home.png')] bg-no-repeat bg-right-bottom bg-contain bg-white rounded-2xl shadow-lg")
     h1(class="absolute top-[60%] left-[5%] text-5xl translate-y-[-50%]")
       div(class="font-bold mb-4") {{ ranSlogan[0][0] }}
       div(class="font-bold") {{ ranSlogan[0][1] }}
@@ -20,7 +20,7 @@ div(class="p-8 w-full")
         img(
           class="w-full h-full object-center object-cover"
           style=":nth-child(3n+1):"
-          :src="`src/assets/images/city_${idx+1}.jpg`" :alt="item[0]"
+          :src="`./images/city_${idx+1}.jpg`" :alt="item[0]"
           )
         div(class="absolute inset-0 flex flex-col justify-center items-center text-gray-100 hover:bg-[#00000066]") 
           span(class="text-2xl font-bold") {{ item[1].name }}
