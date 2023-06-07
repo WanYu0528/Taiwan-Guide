@@ -1,20 +1,20 @@
 <template lang="pug">
-div(class="p-8")
+div(class="p-8 flex flex-col justify-center")
   div(class="relative w-full h-[min(300px,40vw)] bg-white rounded-2xl shadow-xl")
     img(
       class="h-full w-full object-left object-cover rounded-2xl"
-      :src="`/public/images/banner_${parm.mode}.png`"
+      :src="getImg[parm.mode]"
       alt="Taiwan-Guide"
       title="Taiwan-Guide"
     )
     h1(class="absolute top-[70%] left-6 text-gray-100 text-4xl font-bold") {{ getTitle() }}
-  div(class="flex justify-around items-stretch flex-wrap mt-8")
+  div(class="flex justify-start items-stretch flex-wrap mt-8")
     router-link(
       v-for="item in result" :key="item.ID"
       :to="`/D/${item[parm.mode + 'ID']}/`"
       class="flex flex-col w-[32%] pad:w-[47%] mobile:w-full rounded-lg overflow-hidden items-stretch mx-1 mb-4 bg-white transition hover:shadow-lg duration-500"
     )
-      div(class="w-full h-[250px] bg-[url('./images/logo.png')] bg-no-repeat bg-center bg-contain")
+      div(class="w-full h-[250px] bg-[url('/images/logo.png')] bg-no-repeat bg-center bg-contain")
         img(
           class="w-full h-full object-center object-cover transition transform duration-500 hover:scale-125"
           :src="item.Picture.PictureUrl1"
@@ -66,7 +66,12 @@ import { ref } from "vue";
 import { cityLib, modeLib } from "../Lib.js";
 import { useRoute, useRouter } from "vue-router";
 import tourism from "@/api/tourism";
-
+const getImg = {
+  Activity: "/images/banner_Activity.png",
+  Hotel: "/images/banner_Hotel.png",
+  Restaurant: "/images/banner_Restaurant.png",
+  ScenicSpot: "/images/banner_ScenicSpot.png",
+};
 const loading = ref(0);
 const route = useRoute();
 const router = useRouter();
