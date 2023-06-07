@@ -8,7 +8,7 @@ div(v-if="loading === 1" class="p-8")
       button(class="py-1 px-2 mr-2 text-2xl text-main bg-transparent rounded-lg outline-none cursor-pointer hover:text-gray-100 hover:bg-main")
         i(class="icofont-rounded-left")
       h1(class="text-3xl font-bold pb-1") {{ result[parm.mode + "Name"] }}
-  div(class="w-full h-[min(300px,40vw)] bg-[url('/images/logo.png')] bg-no-repeat bg-center bg-contain")
+  div(class="w-full h-[min(300px,40vw)] my-4 rounded-2xl bg-[url('/images/logo.png')] bg-no-repeat bg-center bg-contain")
     img(
       :src="result.Picture.PictureUrl1"
       :alt="result.Picture.PictureDescription1"
@@ -30,13 +30,13 @@ div(v-if="loading === 1" class="p-8")
       class="ml-2 pb-2"
       )
       i(class="icofont-calendar mr-2")
-      span 活動期間：{{ result.StartTime + " ~ " + result.EndTime }}
+      span 活動期間：{{ result.StartTime.split("T")[0] + " ~ " + result.EndTime.split("T")[0] }}
     p(
       v-if="result.OpenTime"
       class="ml-2 pb-2"
       )
       i(class="icofont-clock-time mr-2")
-      span 開放時段：{{ result.OpenTime }}
+      span 開放時段：{{ result.OpenTime.split('；')[0] }}
     p(
       v-if="result.TicketInfo"
       class="ml-2 pb-2"

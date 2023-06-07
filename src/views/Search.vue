@@ -8,6 +8,35 @@ div(v-if="loading === 1" class="p-8 flex flex-col justify-center")
       title="Taiwan-Guide"
     )
     h1(class="absolute top-[70%] left-6 text-gray-100 text-4xl font-bold") {{ getTitle() }}
+  div(class="mt-6 text-center flex flex-row justify-center")
+    router-link(
+      @click="onUpdate('ScenicSpot')"
+      :to="getLink('ScenicSpot')"
+      class="block my-[0.2rem] mx-[0.5rem] py-1 px-5 border border-main rounded hover:bg-main hover:text-gray-100 cursor-pointer"
+      :class="searchmode === 'ScenicSpot' ? 'bg-main text-gray-100' : ''"
+      replace
+    ) 景點
+    router-link(
+      @click="onUpdate('Restaurant')"
+      :to="getLink('Restaurant')"
+      class="block my-[0.2rem] mx-[0.5rem] py-1 px-5 border border-main rounded hover:bg-main hover:text-gray-100 cursor-pointer"
+      :class="searchmode === 'Restaurant' ? 'bg-main text-gray-100' : ''"
+      replace
+    ) 餐飲
+    router-link(
+      @click="onUpdate('Hotel')"
+      :to="getLink('Hotel')"
+      class="block my-[0.2rem] mx-[0.5rem] py-1 px-5 border border-main rounded hover:bg-main hover:text-gray-100 cursor-pointer"
+      :class="searchmode === 'Hotel' ? 'bg-main text-gray-100' : ''"
+      replace
+    ) 旅宿
+    router-link(
+      @click="onUpdate('Activity')"
+      :to="getLink('Activity')"
+      class="block my-[0.2rem] mx-[0.5rem] py-1 px-5 border border-main rounded hover:bg-main hover:text-gray-100 cursor-pointer"
+      :class="searchmode === 'Activity' ? 'bg-main text-gray-100' : ''"
+      replace
+    ) 活動
   div(class="flex justify-around items-stretch flex-wrap mt-8")
     router-link(
       v-for="item in result" :key="item.ID"
@@ -34,7 +63,7 @@ div(v-if="loading === 1" class="p-8 flex flex-col justify-center")
           class="ml-5 text-base text-justify -indent-5 mobile:text-sm"
         )
           i(class="icofont-calendar mr-2")
-          span {{ item.StartTime }} ~ {{ item.EndTime }}
+          span {{ item.StartTime.split("T")[0] }} ~ {{ item.EndTime.split("T")[0] }}
         p(
           v-if="item.OpenTime"
           class="ml-5 text-base text-justify -indent-5 mobile:text-sm"
@@ -83,24 +112,35 @@ div(v-if="loading === 1" class="p-8 flex flex-col justify-center")
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { cityLib, modeLib } from "../Lib.js";
 import { useRoute, useRouter } from "vue-router";
 import tourism from "@/api/tourism";
+import { useStore } from "vuex";
+
+const store = useStore();
+// 取得搜尋類型
+const mode = computed(() => {
+  return store.state.searchData.mode;
+});
+const searchmode = ref(mode);
+const onUpdate = (val) => {
+  store.commit("searchData/getChosenMode", val);
+  searchmode.value = val;
+};
+const loading = ref(0);
 const getImg = {
   Activity: "/images/banner_Activity.png",
   Hotel: "/images/banner_Hotel.png",
   Restaurant: "/images/banner_Restaurant.png",
   ScenicSpot: "/images/banner_ScenicSpot.png",
 };
-const loading = ref(0);
 const route = useRoute();
 const router = useRouter();
 const parm = route.params;
 let pageIdx = 1;
 const result = ref([]);
 const loadBtn = ref(true);
-const emit = defineEmits(["setMode"]);
 const verify = () => {
   if (Object.keys(modeLib).indexOf(parm.mode) < 0) return true;
   if (parm.city && !cityLib[parm.city]) return true;
@@ -109,7 +149,6 @@ const verify = () => {
 const loadData = async () => {
   if (verify()) router.replace({ name: "home" });
   loadBtn.value = true;
-  emit("setMode", parm.mode);
   try {
     let load = await tourism.cityTravelInfo.gatCityTravelInfo(parm.mode, parm.city, parm.keyword, pageIdx);
     if (load.data.length === 0) throw new Error();
@@ -128,6 +167,11 @@ const getTitle = () => {
   else if (parm.city) return cityLib[parm.city].name;
   else return parm.mode;
 };
+
+const getLink = (mode) =>
+  parm.city
+    ? `/${mode}/${parm.city}/${parm.keyword || ""}`
+    : "/";
 loadData();
 </script>
 
