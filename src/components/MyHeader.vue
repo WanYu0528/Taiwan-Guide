@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="relative z-10 flex justify-between items-center after:absolute after:-top-6 after:-inset-x-6 after:-bottom-16 after:-z-10")
-  router-link(to="/" class="block w-[150px] h-[70px] bg-[url('./images/logo.png')] bg-no-repeat bg-center bg-contain")
+  router-link(to="/" class="block w-[150px] h-[70px] bg-[url('/public/images/logo.png')] bg-no-repeat bg-center bg-contain")
   button(class="text-3xl rounded-lg")
     i(class="icofont-rounded-left text-main bg-slate-100 rounded hidden pad:block" @click="setSideMenuClose")
 div(
