@@ -9,7 +9,7 @@ div(class="w-full max-w-[min(1440px,100vw)] h-full flex items-start m-auto box-b
     nav(class="hidden top-0 sticky w-full bg-white drop-shadow-lg pad:flex justify-between items-center z-10")
       button(class="mx-4" @click="isSideMenuShow = true")
         i(class="icofont-settings p-1 text-3xl text-main bg-slate-100 rounded")
-      RouterLink(to="/" class="block w-[100px] h-[70px] bg-[url('@/assets/images/logo.png')] bg-no-repeat bg-center bg-contain")
+      RouterLink(to="/" class="block w-[100px] h-[70px] bg-[url('/public/images/logo.png')] bg-no-repeat bg-center bg-contain")
       div
     RouterView(
       @setMode="setMode"
