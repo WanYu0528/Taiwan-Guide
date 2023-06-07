@@ -56,7 +56,7 @@ div(class="p-8")
 
 <script setup>
 import { ref } from "vue";
-import { cityLib, modeLib } from "../lib.js";
+import { cityLib, modeLib } from "../Lib.js";
 import { useRoute, useRouter } from "vue-router";
 import tourism from "@/api/tourism";
 
