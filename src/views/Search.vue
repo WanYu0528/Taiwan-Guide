@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="p-8 flex flex-col justify-center")
+div(v-if="loading === 1" class="p-8 flex flex-col justify-center")
   div(class="relative w-full h-[min(300px,40vw)] bg-white rounded-2xl shadow-xl")
     img(
       class="h-full w-full object-left object-cover rounded-2xl"
@@ -8,10 +8,10 @@ div(class="p-8 flex flex-col justify-center")
       title="Taiwan-Guide"
     )
     h1(class="absolute top-[70%] left-6 text-gray-100 text-4xl font-bold") {{ getTitle() }}
-  div(class="flex justify-start items-stretch flex-wrap mt-8")
+  div(class="flex justify-around items-stretch flex-wrap mt-8")
     router-link(
       v-for="item in result" :key="item.ID"
-      :to="`/D/${item[parm.mode + 'ID']}/`"
+      :to="`/D/${parm.mode}/${item[parm.mode + 'ID']}/`"
       class="flex flex-col w-[32%] pad:w-[47%] mobile:w-full rounded-lg overflow-hidden items-stretch mx-1 mb-4 bg-white transition hover:shadow-lg duration-500"
     )
       div(class="w-full h-[250px] bg-[url('/images/logo.png')] bg-no-repeat bg-center bg-contain")
@@ -53,6 +53,27 @@ div(class="p-8 flex flex-col justify-center")
         )
           i(class="icofont-location-pin mr-2")
           span {{ item.Location ? item.Location + " " + item.Address : item.Address }}
+        p(
+          v-if="item.Class || item.Class1 || item.Class2 || item.Class3"
+          class="ml-5 text-base text-justify -indent-5 mobile:text-sm"
+        )
+          i(class="icofont-tags mr-2")
+          span(
+            v-if="item.Class"
+            class="mx-1 py-1 px-2 leading-[3rem] bg-main whitespace-nowrap text-gray-100 rounded-lg"
+            ) {{ item.Class }}
+          span(
+            v-if="item.Class1"
+            class="mx-1 py-1 px-2 leading-[3rem] bg-main whitespace-nowrap text-gray-100 rounded-lg"
+            ) {{ item.Class1 }}
+          span(
+            v-if="item.Class2"
+            class="mx-1 py-1 px-2 leading-[3rem] bg-main whitespace-nowrap text-gray-100 rounded-lg"
+            ) {{ item.Class2 }}
+          span(
+            v-if="item.Class3"
+            class="mx-1 py-1 px-2 leading-[3rem] bg-main whitespace-nowrap text-gray-100 rounded-lg"
+            ) {{ item.Class3 }}
   div(class="flex justify-center")
     button(
       v-show="!loadBtn"
@@ -90,7 +111,7 @@ const loadData = async () => {
   loadBtn.value = true;
   emit("setMode", parm.mode);
   try {
-    let load = await tourism.ScenicSpot.gatCityTravelInfo(parm.mode, parm.city, parm.keyword, pageIdx);
+    let load = await tourism.cityTravelInfo.gatCityTravelInfo(parm.mode, parm.city, parm.keyword, pageIdx);
     if (load.data.length === 0) throw new Error();
     if (load.data.length === 18) loadBtn.value = false;
     result.value = result.value.concat(load.data);

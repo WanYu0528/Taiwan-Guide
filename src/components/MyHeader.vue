@@ -74,7 +74,7 @@ const keyword = ref("");
 const router = useRouter();
 const onSearch = async () => {
   try {
-    let res = await tourism.ScenicSpot.gatCityTravelInfo(searchMode.value, city.value, keyword.value);
+    let res = await tourism.cityTravelInfo.gatCityTravelInfo(searchMode.value, city.value, keyword.value);
     cityScenicSpot.value = res.data;
     store.commit("searchData/getChosenMode", searchMode.value);
     store.commit("searchData/getChosenCity", city.value);
