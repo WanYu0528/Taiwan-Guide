@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="p-8")
+div(class="p-8 flex flex-col justify-center")
   div(class="relative w-full h-[min(300px,40vw)] bg-white rounded-2xl shadow-xl")
     img(
       class="h-full w-full object-left object-cover rounded-2xl"
@@ -8,7 +8,7 @@ div(class="p-8")
       title="Taiwan-Guide"
     )
     h1(class="absolute top-[70%] left-6 text-gray-100 text-4xl font-bold") {{ getTitle() }}
-  div(class="flex justify-around items-stretch flex-wrap mt-8")
+  div(class="flex justify-start items-stretch flex-wrap mt-8")
     router-link(
       v-for="item in result" :key="item.ID"
       :to="`/D/${item[parm.mode + 'ID']}/`"
