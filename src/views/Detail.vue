@@ -8,7 +8,7 @@ div(v-if="loading === 1" class="p-8")
       button(class="py-1 px-2 mr-2 text-2xl text-main bg-transparent rounded-lg outline-none cursor-pointer hover:text-gray-100 hover:bg-main")
         i(class="icofont-rounded-left")
       h1(class="text-3xl font-bold pb-1") {{ result[parm.mode + "Name"] }}
-  div(class="w-full h-[250px] bg-[url('/images/logo.png')] bg-no-repeat bg-center bg-contain")
+  div(class="w-full h-[min(300px,40vw)] bg-[url('/images/logo.png')] bg-no-repeat bg-center bg-contain")
     img(
       :src="result.Picture.PictureUrl1"
       :alt="result.Picture.PictureDescription1"
@@ -138,11 +138,9 @@ const loadData = async () => {
   if (!parm.ID) router.replace({ name: "home" });
   try {
     const data = await tourism.travelInfoDetail.getDetail(parm.ID);
-    console.log(data);
     if (!data[parm.mode + "ID"]) throw new Error();
     result.value = data;
     document.title = result.value[parm.mode + "Name"];
-    console.log(result.value[parm.mode + "Name"]);
     setTimeout(() => (loading.value = 1), 500);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }

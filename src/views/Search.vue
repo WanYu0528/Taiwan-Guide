@@ -115,7 +115,6 @@ const loadData = async () => {
     if (load.data.length === 0) throw new Error();
     if (load.data.length === 18) loadBtn.value = false;
     result.value = result.value.concat(load.data);
-    console.log(result.value);
     pageIdx += 1;
     setTimeout(() => (loading.value = 1), 500);
     if (pageIdx === 2) window.scrollTo({ top: 0, behavior: "smooth" });
