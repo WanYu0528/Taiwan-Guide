@@ -15,7 +15,11 @@ const router = createRouter({
       name: "Search",
       component: Search,
     },
-    { path: "/D/:ID", name: "Detail", component: Detail },
+    { 
+      path: "/D/:mode/:ID",
+      name: "Detail",
+      component: Detail
+    },
     // {
     //   path: '/about',
     //   name: 'about',

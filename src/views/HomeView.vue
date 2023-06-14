@@ -28,7 +28,7 @@ div(class="p-8 w-full")
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { onMounted } from "vue";
 import { sloganLib, cityLib } from "../Lib.js";
 import getRandomCount from "@/utils/getRandomCount.js";
 import { useStore } from "vuex";
@@ -46,8 +46,12 @@ const store = useStore();
 const ranSlogan = getRandomCount(sloganLib, 1);
 const ranCity = getRandomCount(Object.entries(cityLib), 7);
 const onSearch = (city) => {
-  store.commit("searchData/getChosenCity", city); 
+  store.commit("searchData/getChosenCity", city);
+  store.commit("searchData/getChosenMode", "ScenicSpot"); 
 };
+onMounted(() => {
+  document.title = "Travel Guide";
+});
 </script>
 <style>
 .custom-class:nth-child(3n+1) {

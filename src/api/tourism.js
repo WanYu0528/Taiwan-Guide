@@ -1,7 +1,7 @@
 import instance from "./axios";
 // 每頁顯示筆數
 const perPage = 18;
-const ScenicSpot = {
+const cityTravelInfo = {
   gatCityTravelInfo(mode, city, keyword, page = 1) {
     city = city === "Taiwan" ? "" : "/" + city;
     let url = "";
@@ -28,6 +28,39 @@ const ScenicSpot = {
   }
 };
 
+// 偵測顯示模式;
+const getMode = (ID, en) => {
+  const tag = ID.split("_")[0];
+  if (tag === "C1") return en ? "ScenicSpot" : "景點";
+  if (tag === "C2") return en ? "Activity" : "活動";
+  if (tag === "C3") return en ? "Restaurant" : "餐飲";
+  if (tag === "C4") return en ? "Hotel" : "旅宿";
+};
+
+// 取得單筆資料
+const travelInfoDetail = {
+  async getDetail(ID) {
+    let url = "https://tdx.transportdata.tw/api/basic/v2/Tourism/";
+    url += `${getMode(ID, true)}?$format=JSON&`;
+    url += `$filter=${getMode(ID, true)}ID eq '${ID}'`;
+    const res = await instance.get(`${url}`);
+    if (res.data.length === 0) throw new Error();
+    res.data[0].modeName = getMode(res.data[0][getMode(ID, true) + "ID"]);
+    if (res.data[0].Description)
+      res.data[0].Description = res.data[0].Description.split("。").join("。\n\n");
+    if (res.data[0].DescriptionDetail)
+      res.data[0].DescriptionDetail = res.data[0].DescriptionDetail.split("。").join("。\n\n");
+    if (res.data[0].TravelInfo)
+      res.data[0].TravelInfo = res.data[0].TravelInfo.split("。").join("。\n\n");
+    if (res.data[0].ParkingInfo) res.data[0].ParkingInfo = res.data[0].ParkingInfo + "\n\n";
+    if (res.data[0].StartTime) res.data[0].StartTime = res.data[0].StartTime.split("T")[0];
+    if (res.data[0].EndTime) res.data[0].EndTime = res.data[0].EndTime.split("T")[0];
+    if (res.data[0].StartTime === res.data[0].EndTime) res.data[0].Date = res.data[0].EndTime;
+    res.data[0].getMode = getMode(ID, true);
+    return res.data[0];
+  }
+};
 export default {
-  ScenicSpot,
+  cityTravelInfo,
+  travelInfoDetail
 };
